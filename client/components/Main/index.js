@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
 import styles from './main.scss';
 
 class Main extends Component {
 
+    filePicker = undefined;
+
     constructor(props) {
         super(props);
         this.state = {file: '',imagePreviewUrl: ''};
+        this._handleSubmit = this._handleSubmit.bind(this);
     }
 
     _handleSubmit(e) {
@@ -26,7 +31,7 @@ class Main extends Component {
                 file: file,
                 imagePreviewUrl: reader.result
             });
-        }
+        };
 
         reader.readAsDataURL(file)
     }
@@ -37,23 +42,25 @@ class Main extends Component {
         if (imagePreviewUrl) {
             $imagePreview = (<img src={imagePreviewUrl} />);
         } else {
-            $imagePreview = (<div className="previewText">Please select an Image</div>);
+            $imagePreview = (<div></div>);
         }
         return (
             <div className={styles.centered}>
-                <div className="previewComponent">
-                    <form onSubmit={(e)=>this._handleSubmit(e)}>
-                        <input className="fileInput"
-                               type="file"
-                               onChange={(e)=>this._handleImageChange(e)} />
-                        <button className="submitButton"
-                                type="submit"
-                                onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>
-                    </form>
+                    <RaisedButton primary={true}
+                                  label="Pick a File"
+                                  onClick={this.filePicker.click()}/>
+                    <input id="fileUpload"
+                           className="fileInput"
+                           type="file"
+                           onChange={(e)=>this._handleImageChange(e)}
+                           ref={this.filePicker}
+                           hidden />
+                    <RaisedButton secondary={true}
+                                  label="Upload Image"
+                                  onClick={(e)=>this._handleSubmit(e)}/>
                     <div className="imgPreview">
                         {$imagePreview}
                     </div>
-                </div>
             </div>
         );
     }
