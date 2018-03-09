@@ -11,10 +11,11 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {file: '',imagePreviewUrl: ''};
-        this._handleSubmit = this._handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.pickFile = this.pickFile.bind(this);
     }
 
-    _handleSubmit(e) {
+    handleSubmit(e) {
         e.preventDefault();
         // TODO: do something with -> this.state.file
         console.log('handle uploading-', this.state.file);
@@ -36,6 +37,10 @@ class Main extends Component {
         reader.readAsDataURL(file)
     }
 
+    pickFile() {
+        this.filePicker.click();
+    }
+
     render() {
         let {imagePreviewUrl} = this.state;
         let $imagePreview = null;
@@ -48,17 +53,18 @@ class Main extends Component {
             <div className={styles.centered}>
                     <RaisedButton primary={true}
                                   label="Pick a File"
-                                  onClick={this.filePicker.click()}/>
+                                  onClick={this.pickFile}
+                                  className={styles.margined}/>
                     <input id="fileUpload"
                            className="fileInput"
                            type="file"
                            onChange={(e)=>this._handleImageChange(e)}
-                           ref={this.filePicker}
+                           ref={instance => { this.filePicker = instance; }}
                            hidden />
                     <RaisedButton secondary={true}
                                   label="Upload Image"
-                                  onClick={(e)=>this._handleSubmit(e)}/>
-                    <div className="imgPreview">
+                                  onClick={(e)=>this.handleSubmit(e)}/>
+                    <div className={styles.imgPreview}>
                         {$imagePreview}
                     </div>
             </div>
