@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 
 import { api } from '../../utils/api';
 

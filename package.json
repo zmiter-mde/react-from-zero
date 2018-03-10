@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "npm i && webpack && gulp",
+    "build": "npm i && webpack && gulp build",
     "clean": "gulp clean"
   },
   "dependencies": {
