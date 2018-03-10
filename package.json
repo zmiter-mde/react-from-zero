@@ -7,8 +7,7 @@
     "start": "webpack-dev-server",
     "build": "npm i && webpack && gulp",
     "pack": "webpack && gulp",
-    "clean": "gulp clean",
-    "homepage": "https://zmiter-mde.github.io/react-from-zero/"
+    "clean": "gulp clean"
   },
   "dependencies": {
     "html-webpack-plugin": "^2.30.1",
