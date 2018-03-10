@@ -4,13 +4,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
+import { api } from '../../utils/api';
+
 import styles from './main.scss';
 
-const checkStatus = (response) => {
-    return response;
-};
 
-const parseJSON = (response) => response.json();
 
 class Main extends Component {
 
@@ -25,26 +23,26 @@ class Main extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.pickFile = this.pickFile.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        // TODO: do something with -> this.state.file
-        console.log('handle uploading-', this.state.file);
 
         let data = new FormData();
         data.append('file', this.state.file);
-        data.append('user', 'zmiter')
+        data.append('user', 'zmiter');
 
-        fetch('http://localhost:8080/posters/upload', {
-            method: 'POST',
-            body: data
-        }).then(this.checkStatus);
+        api.post(
+            //'http://localhost:8080/posters/upload'
+            'https://postersby.herokuapp.com/upload',
+            data
+        ).then(res => {
+            this.setState({open: true});
+        });
     }
 
     handleImageChange(e) {
-        e.preventDefault();
-
         let reader = new FileReader();
         let file = e.target.files[0];
 
@@ -71,22 +69,6 @@ class Main extends Component {
     };
 
     render() {
-        fetch(
-            //'http://localhost:8080/posters/status',
-        'https://postersby.herokuapp.com/status',
-        {
-            method: 'GET'
-        }).then(checkStatus).then(parseJSON).then(json => {
-            console.log(json);
-        });
-
-        let {imagePreviewUrl} = this.state;
-        let $imagePreview = null;
-        if (imagePreviewUrl) {
-            $imagePreview = (<img src={imagePreviewUrl} />);
-        } else {
-            $imagePreview = (<div></div>);
-        }
 
         const actions = [
             <FlatButton
@@ -101,6 +83,15 @@ class Main extends Component {
                 onClick={this.handleClose}
             />,
         ];
+
+
+        let {imagePreviewUrl} = this.state;
+        let $imagePreview = null;
+        if (imagePreviewUrl) {
+            $imagePreview = (<img src={imagePreviewUrl} />);
+        } else {
+            $imagePreview = (<div></div>);
+        }
 
         return (
             <div className={styles.centered}>
