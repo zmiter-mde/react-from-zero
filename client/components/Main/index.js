@@ -8,8 +8,6 @@ import { api } from '../../utils/api';
 
 import styles from './main.scss';
 
-
-
 class Main extends Component {
 
     filePicker = undefined;
@@ -22,13 +20,11 @@ class Main extends Component {
             open: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.pickFile = this.pickFile.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.openFilePicker = this.openFilePicker.bind(this);
+        this.closePopup = this.closePopup.bind(this);
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-
         let data = new FormData();
         data.append('file', this.state.file);
         data.append('user', 'zmiter');
@@ -38,7 +34,7 @@ class Main extends Component {
             'https://postersby.herokuapp.com/upload',
             data
         ).then(res => {
-            this.setState({open: true});
+            this.openPopup();
         });
     }
 
@@ -56,48 +52,24 @@ class Main extends Component {
         reader.readAsDataURL(file);
     }
 
-    pickFile() {
+    openFilePicker() {
         this.filePicker.click();
     }
 
-    handleOpen = () => {
+    openPopup = () => {
         this.setState({open: true});
     };
 
-    handleClose = () => {
+    closePopup = () => {
         this.setState({open: false});
     };
 
     render() {
-
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={true}
-                onClick={this.handleClose}
-            />,
-            <FlatButton
-                label="Submit"
-                primary={true}
-                keyboardFocused={true}
-                onClick={this.handleClose}
-            />,
-        ];
-
-
-        let {imagePreviewUrl} = this.state;
-        let $imagePreview = null;
-        if (imagePreviewUrl) {
-            $imagePreview = (<img src={imagePreviewUrl} />);
-        } else {
-            $imagePreview = (<div></div>);
-        }
-
         return (
             <div className={styles.centered}>
                 <RaisedButton primary={true}
                               label="Pick a File"
-                              onClick={this.pickFile}
+                              onClick={this.openFilePicker}
                               className={styles.margined}/>
                 <input id="fileUpload"
                        className="fileInput"
@@ -108,18 +80,23 @@ class Main extends Component {
                 <RaisedButton secondary={true}
                               label="Upload Image"
                               onClick={(e)=>this.handleSubmit(e)}/>
+
                 <div className={styles.imgPreview}>
-                    {$imagePreview}
+                    {this.state.imagePreviewUrl && <img src={this.state.imagePreviewUrl}/>}
                 </div>
 
-                <Dialog
-                    title="Dialog With Actions"
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}
-                >
-                    The actions in this window were passed in as an array of React objects.
+                <Dialog title="Poster image uploaded"
+                        open={this.state.open}
+                        onRequestClose={this.closePopup}
+                        actions={[
+                            <RaisedButton
+                                label="Ok"
+                                secondary={true}
+                                keyboardFocused={true}
+                                onClick={this.closePopup}
+                            />,
+                        ]}>
+                    Your image for poster is successfully uploaded. We'll contact you soon
                 </Dialog>
             </div>
         );
