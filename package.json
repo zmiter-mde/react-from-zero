@@ -5,8 +5,10 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "npm i && webpack && gulp build",
-    "clean": "gulp clean"
+    "build": "npm i && webpack && gulp",
+    "pack": "webpack && gulp",
+    "clean": "gulp clean",
+    "homepage": "https://zmiter-mde.github.io/react-from-zero/"
   },
   "dependencies": {
     "html-webpack-plugin": "^2.30.1",
@@ -27,6 +29,7 @@
     "css-loader": "^0.28.10",
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "^1.1.10",
+    "gh-pages": "^1.1.0",
     "gulp": "^3.9.1",
     "gulp-war": "^0.1.4",
     "gulp-zip": "^3.2.0",
