@@ -16,7 +16,8 @@ class Main extends Component {
         this.state = {
             file: '',
             imagePreviewUrl: '',
-            open: false
+            open: false,
+            newImageId: null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.openFilePicker = this.openFilePicker.bind(this);
@@ -29,8 +30,8 @@ class Main extends Component {
         data.append('user', 'zmiter');
 
         api.post(
-            //'http://localhost:8080/posters/upload'
-            'https://postersby.herokuapp.com/upload',
+            'http://localhost:8080/posters/posters/upload',
+            //'https://postersby.herokuapp.com/posters/upload',
             data
         ).then(res => {
             this.openPopup();
@@ -55,8 +56,11 @@ class Main extends Component {
         this.filePicker.click();
     }
 
-    openPopup = () => {
-        this.setState({open: true});
+    openPopup = (newImageId) => {
+        this.setState({
+            open: true,
+            newImageId: newImageId
+        });
     };
 
     closePopup = () => {
@@ -95,7 +99,7 @@ class Main extends Component {
                                 onClick={this.closePopup}
                             />,
                         ]}>
-                    Your image for poster is successfully uploaded. We'll contact you soon
+                    Your image for poster is successfully uploaded with id = {this.state.newImageId}. We'll contact you soon
                 </Dialog>
             </div>
         );
