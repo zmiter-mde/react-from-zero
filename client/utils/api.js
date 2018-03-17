@@ -1,3 +1,5 @@
+const CONTEXT = process.env.AUTH_API;
+
 const checkStatus = (response) => {
     if (response.status >= 200 && response.status < 400) {
         return response;
@@ -31,20 +33,20 @@ const getToken = () => (
 
 export const api = {
     'get': (url, additionalHeaders) => {
-        return fetch(url, {
+        return fetch(`${CONTEXT}${url}`, {
             method: 'GET',
             headers: {...getHeaders(), ...additionalHeaders}
         }).then(checkStatus).then(parseJSON)
     },
     'put': (url, body, additionalHeaders) => {
-        return fetch(url, {
+        return fetch(`${CONTEXT}${url}`, {
             method: 'PUT',
             headers: {...getHeaders(), ...additionalHeaders},
             body: JSON.stringify(body)
         }).then(checkStatus).then(parseJSON);
     },
     'post': (url, body, additionalHeaders) => {
-        return fetch(url, {
+        return fetch(`${CONTEXT}${url}`, {
             method: 'POST',
             headers: {...getHeaders(), ...additionalHeaders},
             body: body,
@@ -52,7 +54,7 @@ export const api = {
         }).then(checkStatus).then(parseJSON);
     },
     'delete': (url, additionalHeaders) => {
-        return fetch(url, {
+        return fetch(`${CONTEXT}${url}`, {
             method: 'DELETE',
             headers: {...getHeaders(), ...additionalHeaders}
         }).then(checkStatus).then(parseJSON)

@@ -35,7 +35,13 @@ module.exports = {
   plugins: [
       HtmlWebpackPluginConfig,
       ExtractTextPluginConfig,
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.DefinePlugin({
+          'process.env':{
+              'NODE_ENV': JSON.stringify('development'),
+              'AUTH_API': JSON.stringify('http://localhost:8080/')
+          }
+      })
   ],
   devServer: {
       hot: true,

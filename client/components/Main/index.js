@@ -7,6 +7,8 @@ import { api } from '../../utils/api';
 
 import styles from './main.scss';
 
+const CONTEXT = process.env.AUTH_API;
+
 class Main extends Component {
 
     filePicker = undefined;
@@ -17,7 +19,8 @@ class Main extends Component {
             file: '',
             imagePreviewUrl: '',
             open: false,
-            newImageId: null
+            newImageId: null,
+            gotNewImage: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.openFilePicker = this.openFilePicker.bind(this);
@@ -29,27 +32,28 @@ class Main extends Component {
         data.append('file', this.state.file);
         data.append('user', 'zmiter');
 
-        api.post(
-            'http://localhost:8080/posters/posters/upload',
-            //'https://postersby.herokuapp.com/posters/upload',
-            data
-        ).then(res => {
-            this.openPopup();
-        });
+        api.post('posters', data)
+            .then(res => {
+                this.openPopup(res.fileId);
+            });
     }
 
-    handleImageChange(e) {
+    handleImageChange(file) {
         let reader = new FileReader();
-        let file = e.target.files[0];
 
         reader.onloadend = () => {
             this.setState({
                 file: file,
-                imagePreviewUrl: reader.result
+                imagePreviewUrl: reader.result,
+                gotNewImage: false
             });
         };
 
         reader.readAsDataURL(file);
+    }
+
+    getNewImage(e) {
+        this.setState({gotNewImage: true});
     }
 
     openFilePicker() {
@@ -64,7 +68,10 @@ class Main extends Component {
     };
 
     closePopup = () => {
-        this.setState({open: false});
+        this.setState({
+            open: false,
+            imagePreviewUrl: null
+        });
     };
 
     render() {
@@ -77,15 +84,23 @@ class Main extends Component {
                 <input id="fileUpload"
                        className="fileInput"
                        type="file"
-                       onChange={(e)=>this.handleImageChange(e)}
+                       onChange={(e)=>this.handleImageChange(e.target.files[0])}
                        ref={instance => { this.filePicker = instance; }}
                        hidden />
                 <RaisedButton secondary={true}
                               label="Upload Image"
                               onClick={(e)=>this.handleSubmit(e)}/>
 
+                <RaisedButton secondary={true}
+                              label={`Check Image With Id = ${this.state.newImageId}`}
+                              onClick={(e)=>this.getNewImage(e)} disabled={!this.state.newImageId}/>
+
                 <div className={styles.imgPreview}>
                     {this.state.imagePreviewUrl && <img src={this.state.imagePreviewUrl}/>}
+                </div>
+
+                <div className={styles.imgPreview}>
+                    {this.state.gotNewImage && <img src={`${CONTEXT}posters/image/${this.state.newImageId}`}/>}
                 </div>
 
                 <Dialog title="Poster image uploaded"
