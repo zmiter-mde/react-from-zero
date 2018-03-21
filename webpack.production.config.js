@@ -42,5 +42,9 @@ module.exports = {
                 'AUTH_API': JSON.stringify('https://postersby.herokuapp.com/')
             }
         })
-    ]
+    ],
+
+    devServer: {
+        historyApiFallback: true
+    }
 };
