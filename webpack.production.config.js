@@ -2,14 +2,14 @@ const path = require('path');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: './client/index.html',
     filename: 'index.html',
     inject: 'body'
 });
-const ExtractTextPluginConfig = new ExtractTextPlugin("styles.css");
+const ExtractTextPluginConfig = new ExtractTextPlugin('styles.css');
 
 module.exports = {
     entry: './client/index.js',
