@@ -7,9 +7,11 @@
     "start": "webpack-dev-server",
     "build": "npm i && webpack && gulp",
     "pack": "webpack && gulp",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "prod": "webpack -p --config webpack.production.config.js"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^4.5.1",
     "html-webpack-plugin": "^2.30.1",
     "material-ui": "^0.20.0",
     "path": "^0.12.7",

@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: './client/index.html',
@@ -41,6 +42,14 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production'),
                 'AUTH_API': JSON.stringify('https://postersby.herokuapp.com/')
             }
-        })
+        }),
+        new CopyWebpackPlugin(
+            [{
+                from: '_redirects',
+                to: '_redirects',
+                toType: 'file'
+            }],
+            { debug: 'info' }
+        )
     ]
 };
