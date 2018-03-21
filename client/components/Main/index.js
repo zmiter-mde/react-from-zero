@@ -100,7 +100,7 @@ class Main extends Component {
                 </div>
 
                 <div className={styles.imgPreview}>
-                    {this.state.gotNewImage && <img src={`${CONTEXT}posters/image/${this.state.newImageId}`}/>}
+                    {this.state.gotNewImage && <img src={`${ CONTEXT }posters/${this.state.newImageId}/image`}/>}
                 </div>
 
                 <Dialog title="Poster image uploaded"

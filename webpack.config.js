@@ -2,7 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const TransformReactJsxSourcePlugin = require('transform-react-jsx-source');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './client/index.html',
@@ -41,7 +42,8 @@ module.exports = {
               'NODE_ENV': JSON.stringify('development'),
               'AUTH_API': JSON.stringify('http://localhost:8080/')
           }
-      })
+      }),
+      TransformReactJsxSourcePlugin
   ],
   devServer: {
       hot: true,
